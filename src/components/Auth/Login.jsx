@@ -1,8 +1,10 @@
 import React, { useState } from "react"
-
+import { useFirebase } from "react-redux-firebase"
 import FormInput from "./FormInput"
 
 const Login = () => {
+	const firebase = useFirebase()
+
 	const [email, setEmail] = useState("")
 	const [password, setPassword] = useState("")
 	const [error, setError] = useState(null)
@@ -20,9 +22,40 @@ const Login = () => {
 		}
 	}
 
+	const formValidation = (email, password) => {
+		// regex
+		if (email.length === 0) {
+			setError('Please enter your email address :)')
+			return false 
+		} else if (password.length < 6) {
+			setError('Please Enter your password :)')
+			return false 
+		} else if () {
+
+		}
+
+		return true
+	}
+
+
+
+	
+
 	const handleSubmit = (e) => {
-		console.log(e)
 		e.preventDefault()
+		if (formValidation()) {
+			firebase
+				.login({
+					email,
+					password,
+				})
+				.then(() => {
+					console.log("success")
+				})
+				.catch((err) => {
+					console.log(err)
+				})
+		} 
 	}
 
 	return (
@@ -31,6 +64,7 @@ const Login = () => {
 
 			<div className="login-right">
 				<form action="" onSubmit={(e) => handleSubmit(e)}>
+					{error ? <div>ERROR</div> : null}
 					<FormInput
 						label="email"
 						type="email"
