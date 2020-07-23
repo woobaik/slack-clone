@@ -5,6 +5,7 @@ import FormInput from "./FormInput"
 const Login = () => {
 	const [email, setEmail] = useState("")
 	const [password, setPassword] = useState("")
+	const [error, setError] = useState(null)
 
 	// handleChange for input
 	const handleChange = (e) => {
@@ -22,8 +23,6 @@ const Login = () => {
 	const handleSubmit = (e) => {
 		console.log(e)
 		e.preventDefault()
-		// check form is valid
-		//check if login success
 	}
 
 	return (
