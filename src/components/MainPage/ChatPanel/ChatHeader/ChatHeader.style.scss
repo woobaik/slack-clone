@@ -1,0 +1,32 @@
+.ChatHeader {
+	width: 100%;
+	height: 80px;
+	border-bottom: 1px solid #dbdbdb;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+
+	.channel-name {
+		font-weight: bold;
+		font-size: 1.1rem;
+		padding: 0.25rem 1rem;
+	}
+
+	.channel-detail {
+		display: flex;
+		padding: 0.25rem 1rem;
+		color: rgb(93, 92, 92);
+
+		.channel-members {
+			display: flex;
+
+			.number-of-member {
+				padding-left: 0.3rem;
+			}
+		}
+
+		.channel-description {
+			padding-left: 0.5rem;
+		}
+	}
+}

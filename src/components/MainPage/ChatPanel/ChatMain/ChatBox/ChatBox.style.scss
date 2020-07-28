@@ -1,0 +1,33 @@
+.ChatBox {
+	display: flex;
+	margin: 1rem;
+	align-items: flex-start;
+
+	.profile-pic {
+		img {
+			width: 50px;
+			object-fit: contain;
+		}
+		margin-right: 1rem;
+	}
+
+	.chat-container {
+		.chat-header {
+			display: flex;
+			margin-bottom: 0.5rem;
+
+			.chat-name {
+				font-weight: bold;
+				margin-right: 0.5rem;
+			}
+
+			.chat-timestamp {
+				color: gray;
+			}
+		}
+
+		.chat-body {
+			line-height: 1.3rem;
+		}
+	}
+}

@@ -13,24 +13,32 @@ const Channels = () => {
 			<div className="channel-list">
 				<ul>
 					<li>
-						<FaSlackHash />
-						<span>music</span>
+						<div className="channel-title">
+							<FaSlackHash />
+							<span>music</span>
+						</div>
+						<div className="channel-counter">13</div>
 					</li>
 					<li>
-						<FaSlackHash />
-						<span>nyc-office</span>
+						<div className="channel-title">
+							<FaSlackHash />
+							<span>nyc office</span>
+						</div>
+						<div className="channel-counter">3</div>
+					</li>
+					<li className="active">
+						<div className="channel-title">
+							<FaSlackHash />
+							<span>job search</span>
+						</div>
+						<div className="channel-counter">3</div>
 					</li>
 					<li>
-						<FaSlackHash />
-						<span>jobs</span>
-					</li>
-					<li>
-						<FaSlackHash />
-						<span>faq</span>
-					</li>
-					<li>
-						<FaSlackHash />
-						<span>social media</span>
+						<div className="channel-title">
+							<FaSlackHash />
+							<span>faq</span>
+						</div>
+						<div className="channel-counter">3</div>
 					</li>
 				</ul>
 			</div>

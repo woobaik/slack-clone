@@ -1,20 +1,38 @@
 .Channel {
-	padding: 1rem;
-
 	.channel-header {
 		font-size: 1.1rem;
+		margin-top: 1.5rem;
 	}
 
 	.channel-list {
 		ul li {
 			display: flex;
-			padding-top: 1rem;
-
+			padding: 0.5rem 1rem;
+			justify-content: space-between;
+			align-items: center;
 			&:first-of-type {
-				padding-top: 0.4rem;
+				margin-top: 1.5rem;
 			}
-			span {
-				padding-left: 0.5rem;
+
+			&.active {
+				background-color: #1463a3;
+			}
+
+			.channel-title {
+				display: flex;
+				span {
+					padding-left: 0.5rem;
+				}
+			}
+
+			.channel-counter {
+				background-color: #b8394f;
+				width: 2rem;
+				height: 1.2rem;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				border-radius: 12px;
 			}
 		}
 	}
