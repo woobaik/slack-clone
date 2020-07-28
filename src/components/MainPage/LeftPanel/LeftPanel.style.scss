@@ -1,0 +1,17 @@
+.LeftPanel {
+	background-color: #401646;
+	color: white;
+	display: flex;
+	flex-direction: column;
+	height: 95vh;
+	.user-info {
+		height: 5rem;
+		border: 1px solid rgb(177, 171, 171);
+	}
+
+	.channels {
+		border: 1px solid rgb(177, 171, 171);
+		height: 100%;
+		flex: 1;
+	}
+}

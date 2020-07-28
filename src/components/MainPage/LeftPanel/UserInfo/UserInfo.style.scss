@@ -1,0 +1,29 @@
+.UserInfo {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 300px;
+	.username {
+		flex: 1;
+		padding-left: 1rem;
+		font-size: 1.2rem;
+
+		ul li {
+			display: none;
+			font-size: 1rem;
+		}
+	}
+
+	.avatar {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 50px;
+		width: 50px;
+		background-color: rgb(216, 213, 213);
+		color: rgb(95, 94, 94);
+		font-size: 2.2rem;
+		border-radius: 50%;
+		margin: 10px;
+	}
+}
