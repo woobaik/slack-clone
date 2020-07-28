@@ -2,6 +2,8 @@ import React, { useState } from "react"
 import { useFirebase } from "react-redux-firebase"
 import FormInput from "./FormInput"
 
+import { ReactComponent as SampleAvatar } from "../../assets/imgs/svg/female_avatar.svg"
+
 const Login = () => {
 	const firebase = useFirebase()
 
@@ -25,25 +27,19 @@ const Login = () => {
 	const formValidation = (email, password) => {
 		// regex
 		if (email.length === 0) {
-			setError('Please enter your email address :)')
-			return false 
+			setError("Please enter your email address :)")
+			return false
 		} else if (password.length < 6) {
-			setError('Please Enter your password :)')
-			return false 
-		} else if () {
-
+			setError("Please Enter your password :)")
+			return false
 		}
-
+		// email regex
 		return true
 	}
 
-
-
-	
-
 	const handleSubmit = (e) => {
 		e.preventDefault()
-		if (formValidation()) {
+		if (formValidation(email, password)) {
 			firebase
 				.login({
 					email,
@@ -55,12 +51,14 @@ const Login = () => {
 				.catch((err) => {
 					console.log(err)
 				})
-		} 
+		}
 	}
 
 	return (
 		<div className="Login">
-			<div className="login-left"></div>
+			<div className="login-left">
+				<SampleAvatar />
+			</div>
 
 			<div className="login-right">
 				<form action="" onSubmit={(e) => handleSubmit(e)}>

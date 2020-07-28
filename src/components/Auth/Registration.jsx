@@ -26,6 +26,7 @@ const Registration = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
+		//TODO: VALIDATION FORM
 		firebase
 			.createUser({ email, password }, { username, email })
 			.then(() => {
