@@ -8,7 +8,6 @@ const ChatBox = () => {
 				<img
 					src={require("../../../../../assets/imgs/profile-demo/1.jpg")}
 					alt="fc"
-					srcset=""
 				/>
 			</div>
 			<div className="chat-container">

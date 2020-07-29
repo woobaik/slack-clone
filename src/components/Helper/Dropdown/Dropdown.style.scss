@@ -1,0 +1,30 @@
+.Dropdown {
+	border-radius: 5px;
+	ul {
+		margin-top: 0.5rem;
+		li {
+			color: blueviolet;
+			padding: 0.5rem;
+			border-bottom: 1px solid gray;
+			padding-top: 1rem;
+
+			&:hover {
+				background-color: blueviolet;
+				color: white;
+			}
+		}
+	}
+	ul[wobble="1"] {
+		animation: wobble 0.5s 1;
+	}
+}
+
+@keyframes wobble {
+	25% {
+		transform: translateY(100%);
+	}
+
+	100% {
+		transform: translateY(0%);
+	}
+}
