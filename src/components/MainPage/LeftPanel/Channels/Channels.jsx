@@ -1,12 +1,21 @@
 import React, { useState } from "react"
 import "./Channels.style.scss"
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io"
-import { FaSlackHash, FaQq } from "react-icons/fa"
+import { FaSlackHash } from "react-icons/fa"
 import { Transition } from "react-transition-group"
+import { MdAdd } from "react-icons/md"
+import Modal from "react-modal"
+import AddChannelModal from "../../../Helper/Modal/AddChannelModal/AddChannelModal"
 
 const Channels = () => {
 	const [channelListOpen, setChannelListOpen] = useState(false)
 	const [activeChannel, setActiveChannel] = useState("")
+	const [modalOpen, setModalOpen] = useState(true)
+	Modal.setAppElement("#root")
+	//modal style
+
+	const modelStyle = {}
+
 	const duration = 200
 
 	const defaultStyle = {
@@ -29,11 +38,18 @@ const Channels = () => {
 	]
 	return (
 		<div className="Channel">
-			<div
-				className="channel-header"
-				onClick={() => setChannelListOpen(!channelListOpen)}>
+			<Modal isOpen={modalOpen} onRequestClose={() => setModalOpen(false)}>
+				<AddChannelModal closeBtn={() => setModalOpen(false)} />
+			</Modal>
+			<div className="channel-header">
 				{" "}
-				{channelListOpen ? <IoMdArrowDropup /> : <IoMdArrowDropdown />} Channels
+				{channelListOpen ? <IoMdArrowDropup /> : <IoMdArrowDropdown />}{" "}
+				<div onClick={() => setChannelListOpen(!channelListOpen)}>
+					Channels{" "}
+				</div>
+				<span onClick={() => setModalOpen(true)}>
+					<MdAdd />
+				</span>
 			</div>
 			<Transition in={channelListOpen} timeout={duration}>
 				{(state) => (
@@ -48,7 +64,8 @@ const Channels = () => {
 								return (
 									<li
 										onClick={() => setActiveChannel(item.uId)}
-										className={activeChannel === item.uId ? "active" : ""}>
+										className={activeChannel === item.uId ? "active" : ""}
+										key={item.uId}>
 										<div className="channel-title">
 											<FaSlackHash />
 											<span>{item.title}</span>
