@@ -13,12 +13,19 @@ import { setCurrentChannel } from "../../../../redux/actions/channelActions"
 const Channels = (props) => {
 	const [channelListOpen, setChannelListOpen] = useState(false)
 	const [activeChannel, setActiveChannel] = useState("")
-	const [modalOpen, setModalOpen] = useState(true)
+	const [modalOpen, setModalOpen] = useState(false)
 	const [channelList, setChannelList] = useState([])
 
 	// getting fetch data
 	useEffect(() => {
+		if (channelList.length > 0) {
+			return
+		}
 		fetchListData()
+
+		return () => {
+			fetchListData()
+		}
 	}, [])
 
 	// Modal mount
@@ -40,12 +47,16 @@ const Channels = (props) => {
 
 	const fetchListData = () => {
 		let channelRef = firestore.collection("channels")
-		channelRef.get().then((doc) => {
-			if (doc) {
-				setChannelList(doc.docs)
-			} else {
-				console.log("Nothing from doc")
-			}
+
+		channelRef.onSnapshot((snapshot) => {
+			console.log("snap shot!!", snapshot.docs)
+			const channelList = snapshot.docs.map((doc) => ({
+				id: doc.id,
+				title: doc.data().title,
+				description: doc.data().description,
+			}))
+			setChannelList(channelList)
+			console.log(channelList)
 		})
 	}
 
@@ -57,7 +68,11 @@ const Channels = (props) => {
 	return (
 		<div className="Channel">
 			<Modal isOpen={modalOpen} onRequestClose={() => setModalOpen(false)}>
-				<AddChannelModal closeBtn={() => setModalOpen(false)} />
+				<AddChannelModal
+					closeBtn={() => setModalOpen(false)}
+					openChannelList={() => setChannelListOpen(true)}
+					setActiveChannel={(id) => setActiveChannel(id)}
+				/>
 			</Modal>
 			<div className="channel-header">
 				{" "}
@@ -78,18 +93,17 @@ const Channels = (props) => {
 							...transitionStyles[state],
 						}}>
 						<ul>
-							{channelList.map((item) => {
-								const data = item.data()
-								const id = item.id
+							{channelList.map((channel) => {
+								const { id, title, description } = channel
 
 								return (
 									<li
-										onClick={() => currentChannelSelector(id, data)}
+										onClick={() => currentChannelSelector(id, channel)}
 										className={activeChannel === id ? "active" : ""}
 										key={id}>
 										<div className="channel-title">
 											<FaSlackHash />
-											<span>{data.title}</span>
+											<span>{title}</span>
 										</div>
 										<div className="channel-counter"></div>
 									</li>
@@ -103,10 +117,14 @@ const Channels = (props) => {
 	)
 }
 
+const mapStoreToProps = (state) => {
+	console.log("STATE", state)
+	return state
+}
 const mapDispatchToProps = (dispatch) => {
 	return {
 		setCurrentChannel: (channel) => dispatch(setCurrentChannel(channel)),
 	}
 }
 
-export default connect(null, mapDispatchToProps)(Channels)
+export default connect(mapStoreToProps, mapDispatchToProps)(Channels)

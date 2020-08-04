@@ -15,8 +15,6 @@ const Login = () => {
 	const handleChange = (e) => {
 		const targetName = e.target.type
 
-		console.log(e.target.value)
-
 		if (targetName === "email") {
 			setEmail(e.target.value)
 		} else if (targetName === "password") {

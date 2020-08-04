@@ -1,8 +1,15 @@
 import React, { useState } from "react"
 import "./AddChannelModal.style.scss"
 import { firestore } from "../../../../firebase"
+import { connect } from "react-redux"
+import { setCurrentChannel } from "../../../../redux/actions/channelActions"
 
-const AddChannelModal = ({ closeBtn }) => {
+const AddChannelModal = ({
+	closeBtn,
+	setCurrentChannel,
+	openChannelList,
+	setActiveChannel,
+}) => {
 	const [title, setTitle] = useState("")
 	const [description, setDescription] = useState("")
 	const [errors, setErrors] = useState({})
@@ -29,7 +36,14 @@ const AddChannelModal = ({ closeBtn }) => {
 					description: description,
 				})
 				.then((docRef) => {
-					console.log(docRef)
+					console.log("docref", docRef)
+					docRef.get().then((data) => {
+						console.log("data", data)
+						setCurrentChannel(data.data())
+						setActiveChannel(data)
+					})
+					openChannelList()
+					console.log("snapshot", docRef.onSnapshot())
 				})
 				.catch((error) => {
 					console.log(error)
@@ -38,6 +52,7 @@ const AddChannelModal = ({ closeBtn }) => {
 			setTitle("")
 			setDescription("")
 			setErrors("")
+			closeBtn()
 		} else {
 			console.log("form not valid")
 			if (title.length === 0) {
@@ -98,4 +113,10 @@ const AddChannelModal = ({ closeBtn }) => {
 	)
 }
 
-export default AddChannelModal
+const mapDispatchToProps = (dispatch) => {
+	return {
+		setCurrentChannel: (channel) => dispatch(setCurrentChannel(channel)),
+	}
+}
+
+export default connect(null, mapDispatchToProps)(AddChannelModal)
