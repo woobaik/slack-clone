@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import "./AddChannelModal.style.scss"
+import { firestore } from "../../../../firebase"
 
 const AddChannelModal = ({ closeBtn }) => {
 	const [title, setTitle] = useState("")
@@ -21,6 +22,18 @@ const AddChannelModal = ({ closeBtn }) => {
 		setErrors({})
 		if (formValidation()) {
 			// Todo firebase
+			firestore
+				.collection("channels")
+				.add({
+					title: title,
+					description: description,
+				})
+				.then((docRef) => {
+					console.log(docRef)
+				})
+				.catch((error) => {
+					console.log(error)
+				})
 
 			setTitle("")
 			setDescription("")
@@ -56,6 +69,7 @@ const AddChannelModal = ({ closeBtn }) => {
 						name="title"
 						id="title"
 						autoComplete="off"
+						value={title}
 						autoFocus
 						onChange={(e) => onChangeHandler(e)}
 					/>
@@ -66,6 +80,7 @@ const AddChannelModal = ({ closeBtn }) => {
 						name="description"
 						id="description"
 						autoComplete="off"
+						value={description}
 						onChange={(e) => onChangeHandler(e)}
 					/>
 					<div className="error-msg">

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import "./Channels.style.scss"
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io"
 import { FaSlackHash } from "react-icons/fa"
@@ -6,15 +6,23 @@ import { Transition } from "react-transition-group"
 import { MdAdd } from "react-icons/md"
 import Modal from "react-modal"
 import AddChannelModal from "../../../Helper/Modal/AddChannelModal/AddChannelModal"
+import { firestore } from "../../../../firebase"
+import { connect } from "react-redux"
+import { setCurrentChannel } from "../../../../redux/actions/channelActions"
 
-const Channels = () => {
+const Channels = (props) => {
 	const [channelListOpen, setChannelListOpen] = useState(false)
 	const [activeChannel, setActiveChannel] = useState("")
 	const [modalOpen, setModalOpen] = useState(true)
-	Modal.setAppElement("#root")
-	//modal style
+	const [channelList, setChannelList] = useState([])
 
-	const modelStyle = {}
+	// getting fetch data
+	useEffect(() => {
+		fetchListData()
+	}, [])
+
+	// Modal mount
+	Modal.setAppElement("#root")
 
 	const duration = 200
 
@@ -30,12 +38,22 @@ const Channels = () => {
 		exited: { opacity: 0, visibility: "hidden" },
 	}
 
-	const list = [
-		{ title: "Music", uId: 0 },
-		{ title: "faq", uId: 1 },
-		{ title: "office", uId: 2 },
-		{ title: "job search", uId: 3 },
-	]
+	const fetchListData = () => {
+		let channelRef = firestore.collection("channels")
+		channelRef.get().then((doc) => {
+			if (doc) {
+				setChannelList(doc.docs)
+			} else {
+				console.log("Nothing from doc")
+			}
+		})
+	}
+
+	const currentChannelSelector = (id, data) => {
+		setActiveChannel(id)
+		props.setCurrentChannel(data)
+	}
+
 	return (
 		<div className="Channel">
 			<Modal isOpen={modalOpen} onRequestClose={() => setModalOpen(false)}>
@@ -60,15 +78,18 @@ const Channels = () => {
 							...transitionStyles[state],
 						}}>
 						<ul>
-							{list.map((item) => {
+							{channelList.map((item) => {
+								const data = item.data()
+								const id = item.id
+
 								return (
 									<li
-										onClick={() => setActiveChannel(item.uId)}
-										className={activeChannel === item.uId ? "active" : ""}
-										key={item.uId}>
+										onClick={() => currentChannelSelector(id, data)}
+										className={activeChannel === id ? "active" : ""}
+										key={id}>
 										<div className="channel-title">
 											<FaSlackHash />
-											<span>{item.title}</span>
+											<span>{data.title}</span>
 										</div>
 										<div className="channel-counter"></div>
 									</li>
@@ -82,4 +103,10 @@ const Channels = () => {
 	)
 }
 
-export default Channels
+const mapDispatchToProps = (dispatch) => {
+	return {
+		setCurrentChannel: (channel) => dispatch(setCurrentChannel(channel)),
+	}
+}
+
+export default connect(null, mapDispatchToProps)(Channels)
